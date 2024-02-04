@@ -1,8 +1,12 @@
 package com.fransoufil.kotlincourse
 
 import com.fransoufil.kotlincourse.entities.Categoria
+import com.fransoufil.kotlincourse.entities.Cidade
+import com.fransoufil.kotlincourse.entities.Estado
 import com.fransoufil.kotlincourse.entities.Produto
 import com.fransoufil.kotlincourse.repositories.CategoriaRepository
+import com.fransoufil.kotlincourse.repositories.CidadeRepository
+import com.fransoufil.kotlincourse.repositories.EstadoRepository
 import com.fransoufil.kotlincourse.repositories.ProdutoRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
@@ -15,10 +19,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @EnableJpaRepositories
 class KotlinCourseApplication: CommandLineRunner {
 
-	@Autowired
-	private lateinit var categoriaRepository: CategoriaRepository
+	@Autowired private lateinit var categoriaRepository: CategoriaRepository
 
 	@Autowired lateinit var produtoRepository: ProdutoRepository
+
+	@Autowired lateinit var cidadeRepository: CidadeRepository
+
+	@Autowired lateinit var estadoRepository: EstadoRepository
 
 	override fun run(vararg args: String) {
 		val cat1 = Categoria(id = null, nome = "Informática")
@@ -34,6 +41,13 @@ class KotlinCourseApplication: CommandLineRunner {
 		val pro5 = Produto(null, "Mesa de Reunião", 1500.00)
 		val pro6 = Produto(null, "Creme de Barbear", 40.00)
 		val pro7 = Produto(null, "Caixa de Som", 1200.00)
+
+		val est1 = Estado(null, "Minas Gerais")
+		val est2 = Estado(null, "São Paulo")
+
+		val cid1 = Cidade(null, "Uberlândia", est1)
+		val cid2 = Cidade(null, "São Paulo", est2)
+		val cid3 = Cidade(null, "Campinas", est2)
 
 		cat1.produtos.addAll(listOf(pro1, pro2,pro3))
 		cat2.produtos.addAll(listOf(pro5))
@@ -51,6 +65,8 @@ class KotlinCourseApplication: CommandLineRunner {
 
 		categoriaRepository.saveAll(listOf(cat1, cat2, cat3, cat4, cat5))
 		produtoRepository.saveAll(listOf(pro1, pro2, pro3, pro4, pro5, pro6, pro7))
+		estadoRepository.saveAll(listOf(est1, est2))
+		cidadeRepository.saveAll(listOf(cid1, cid2, cid3))
 
 }
 

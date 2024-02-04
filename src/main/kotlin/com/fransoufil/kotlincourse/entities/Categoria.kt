@@ -4,6 +4,7 @@ import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.ManyToMany
 import java.io.Serializable
 
 @Entity
@@ -16,6 +17,10 @@ class Categoria : Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null
     var nome: String? = null
+
+
+    @ManyToMany(mappedBy = "categorias")
+    var produtos: MutableList<Produto> = mutableListOf()
 
     constructor(id: Int?, nome: String?) {
         this.id = id

@@ -1,13 +1,8 @@
 package com.fransoufil.kotlincourse
 
-import com.fransoufil.kotlincourse.entities.Categoria
-import com.fransoufil.kotlincourse.entities.Cidade
-import com.fransoufil.kotlincourse.entities.Estado
-import com.fransoufil.kotlincourse.entities.Produto
-import com.fransoufil.kotlincourse.repositories.CategoriaRepository
-import com.fransoufil.kotlincourse.repositories.CidadeRepository
-import com.fransoufil.kotlincourse.repositories.EstadoRepository
-import com.fransoufil.kotlincourse.repositories.ProdutoRepository
+import com.fransoufil.kotlincourse.entities.*
+import com.fransoufil.kotlincourse.entities.enums.TipoCliente
+import com.fransoufil.kotlincourse.repositories.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
@@ -26,6 +21,10 @@ class KotlinCourseApplication: CommandLineRunner {
 	@Autowired lateinit var cidadeRepository: CidadeRepository
 
 	@Autowired lateinit var estadoRepository: EstadoRepository
+
+	@Autowired lateinit var clienteRepository: ClienteRepository
+
+	@Autowired lateinit var enderecoRepository: EnderecoRepository
 
 	override fun run(vararg args: String) {
 		val cat1 = Categoria(id = null, nome = "Informática")
@@ -68,7 +67,31 @@ class KotlinCourseApplication: CommandLineRunner {
 		estadoRepository.saveAll(listOf(est1, est2))
 		cidadeRepository.saveAll(listOf(cid1, cid2, cid3))
 
-}
+		val cli1 = Cliente(null, "Francisco Souza", "francisco@souza.com", "36378912377", TipoCliente.PESSOAFISICA)
+		val cli2 = Cliente(null, "Ana Clara", "ana@clara.com", "61715708938", TipoCliente.PESSOAFISICA )
+		val cli3 = Cliente(null, "FranzCorp", "franz@corp.com", "37724906000169", TipoCliente.PESSOAJURIDICA)
+
+		cli1.telefones += "27363323"
+		cli1.telefones += "93838393"
+		cli2.telefones += "22222222"
+		cli2.telefones += "922222222"
+		cli3.telefones += "33333333"
+		cli3.telefones += "933333333"
+
+		val e1 = Endereco(null, "Rua Flores", "300", "Apt 303", "Jardim", "38220834", cli1, cid1)
+		val e2 = Endereco(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, cid2)
+		val e3 = Endereco(null, "Avenida Ana", "77", "Sala 7", "Vila Sete", "77777777", cli2, cid1)
+		val e4 = Endereco(null, "Rua Souza", "555", "Sala 55", "Jardim Cinco", "55555555", cli3, cid3)
+
+		cli1.enderecos += e1
+		cli1.enderecos += e2
+		cli1.enderecos += e3
+		cli1.enderecos += e4
+
+		clienteRepository.saveAll(listOf(cli1, cli2, cli3))
+		enderecoRepository.saveAll(listOf(e1, e2, e3, e4))
+
+	}
 
 	companion object {
 		@JvmStatic

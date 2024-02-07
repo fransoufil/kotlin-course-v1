@@ -1,5 +1,6 @@
 package com.fransoufil.kotlincourse.entities
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
@@ -23,6 +24,7 @@ class Endereco : Serializable {
     var bairro: String? = null
     var cep: String? = null
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "cliente_id")
     var cliente: Cliente? = null
@@ -50,7 +52,6 @@ class Endereco : Serializable {
         this.cliente = cliente
         this.cidade = cidade
     }
-
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

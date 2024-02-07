@@ -1,5 +1,6 @@
 package com.fransoufil.kotlincourse.entities
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.fransoufil.kotlincourse.entities.enums.TipoCliente
 import jakarta.persistence.CascadeType
 import jakarta.persistence.CollectionTable
@@ -27,7 +28,8 @@ class Cliente : Serializable {
     var cpfCnpj: String? = null
     var tipo: Int? = null
 
-    @OneToMany(mappedBy = "cliente", cascade = [CascadeType.ALL])
+    @JsonManagedReference
+    @OneToMany(mappedBy = "cliente")
     var enderecos: List<Endereco> = ArrayList()
 
     @ElementCollection
@@ -43,7 +45,6 @@ class Cliente : Serializable {
             this.tipo = tipo.getCod()
         }
     }
-
 
     fun getTipo(): TipoCliente {
         return TipoCliente.toEnum(tipo)

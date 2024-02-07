@@ -85,8 +85,8 @@ class KotlinCourseApplication: CommandLineRunner {
 
 		cli1.enderecos += e1
 		cli1.enderecos += e2
-		cli1.enderecos += e3
-		cli1.enderecos += e4
+		cli2.enderecos += e3
+		cli3.enderecos += e4
 
 		clienteRepository.saveAll(listOf(cli1, cli2, cli3))
 		enderecoRepository.saveAll(listOf(e1, e2, e3, e4))

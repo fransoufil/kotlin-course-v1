@@ -36,6 +36,8 @@ class Cliente : Serializable {
     @CollectionTable(name = "TELEFONE")
     var telefones: Set<String> = HashSet()
 
+    private val pedidos: List<Pedido> = ArrayList()
+
     constructor(id: Int?, nome: String?, email: String?, cpfCnpj: String?, tipo: TipoCliente?) {
         this.id = id
         this.nome = nome

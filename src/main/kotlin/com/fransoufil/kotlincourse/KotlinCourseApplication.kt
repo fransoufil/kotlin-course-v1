@@ -1,6 +1,7 @@
 package com.fransoufil.kotlincourse
 
 import com.fransoufil.kotlincourse.entities.*
+import com.fransoufil.kotlincourse.entities.enums.EstadoPagamento
 import com.fransoufil.kotlincourse.entities.enums.TipoCliente
 import com.fransoufil.kotlincourse.repositories.*
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,6 +10,9 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 @SpringBootApplication
 @EnableJpaRepositories
@@ -25,6 +29,10 @@ class KotlinCourseApplication: CommandLineRunner {
 	@Autowired lateinit var clienteRepository: ClienteRepository
 
 	@Autowired lateinit var enderecoRepository: EnderecoRepository
+
+	@Autowired lateinit var pedidoRepository: PedidoRepository
+
+	@Autowired lateinit var pagamentoRepository: PagamentoRepository
 
 	override fun run(vararg args: String) {
 		val cat1 = Categoria(id = null, nome = "Informática")
@@ -90,6 +98,22 @@ class KotlinCourseApplication: CommandLineRunner {
 
 		clienteRepository.saveAll(listOf(cli1, cli2, cli3))
 		enderecoRepository.saveAll(listOf(e1, e2, e3, e4))
+
+		val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
+
+		val ped1 = Pedido(null, sdf.parse("25/01/2024 10:43"), cli1, e1)
+		val ped2 = Pedido(null, sdf.parse("03/02/2024 19:05"), cli1, e2)
+
+		val pagto1 = PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 5)
+		ped1.pagamento = pagto1
+
+		val pagto2 = PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2, sdf.parse("05/02/2024 20:06"), null)
+		ped2.pagamento = pagto2
+
+		cli1.pedidos.addAll(listOf(ped1, ped2))
+
+		pedidoRepository.saveAll(listOf(ped1, ped2))
+		pagamentoRepository.saveAll(listOf(pagto1, pagto2))
 
 	}
 

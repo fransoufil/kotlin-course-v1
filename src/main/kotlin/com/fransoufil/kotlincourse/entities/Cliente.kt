@@ -1,5 +1,6 @@
 package com.fransoufil.kotlincourse.entities
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.fransoufil.kotlincourse.entities.enums.TipoCliente
 import jakarta.persistence.CascadeType
@@ -36,7 +37,9 @@ class Cliente : Serializable {
     @CollectionTable(name = "TELEFONE")
     var telefones: Set<String> = HashSet()
 
-    private val pedidos: List<Pedido> = ArrayList()
+    @JsonIgnore
+    @OneToMany(mappedBy = "cliente")
+    val pedidos: MutableList<Pedido> = mutableListOf()
 
     constructor(id: Int?, nome: String?, email: String?, cpfCnpj: String?, tipo: TipoCliente?) {
         this.id = id

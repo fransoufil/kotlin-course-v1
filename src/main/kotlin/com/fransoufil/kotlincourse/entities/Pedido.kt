@@ -29,10 +29,14 @@ class Pedido : Serializable {
     @JoinColumn(name="endereco_de_entrega_id")
     var enderecoDeEntrega: Endereco? = null
 
+    @OneToMany(mappedBy = "id.pedido")
+    var itens: MutableSet<ItemPedido> = mutableSetOf()
+
     constructor(id: Int?, instante: Date?, cliente: Cliente?, enderecoDeEntrega: Endereco?) {
         this.id = id
         this.instante = instante
         this.cliente = cliente
         this.enderecoDeEntrega = enderecoDeEntrega
     }
+
 }

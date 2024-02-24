@@ -5,14 +5,16 @@ import jakarta.persistence.*
 import java.io.Serializable
 
 @Entity
-class Produto(
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Int?, var nome: String?, var preco: Double?
-) : Serializable {
-
+class Produto : Serializable {
     companion object{
         private const val serialVersionUID = 1L
     }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int? = null
+    var nome: String? = null
+    var preco: Double? = null
 
     @JsonIgnore
     @ManyToMany
@@ -23,4 +25,21 @@ class Produto(
     )
     var categorias: MutableList<Categoria> = mutableListOf()
 
+
+    @OneToMany(mappedBy = "id.produto")
+    var itens: MutableSet<ItemPedido> = mutableSetOf()
+
+    constructor(id: Int?, nome: String?, preco: Double?) {
+        this.id = id
+        this.nome = nome
+        this.preco = preco
+    }
+
+    fun getPedidos(): List<Pedido> {
+        val lista: MutableList<Pedido> = mutableListOf()
+        for (x in itens) {
+            x.pedido?.let { lista.add(it) }
+        }
+        return lista
+        }
 }

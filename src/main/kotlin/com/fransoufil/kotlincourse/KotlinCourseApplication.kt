@@ -34,6 +34,8 @@ class KotlinCourseApplication: CommandLineRunner {
 
 	@Autowired lateinit var pagamentoRepository: PagamentoRepository
 
+	@Autowired lateinit var itemPedidoRepository: ItemPedidoRepository
+
 	override fun run(vararg args: String) {
 		val cat1 = Categoria(id = null, nome = "Informática")
 		val cat2 = Categoria(id = null, nome = "Escritório")
@@ -114,6 +116,19 @@ class KotlinCourseApplication: CommandLineRunner {
 
 		pedidoRepository.saveAll(listOf(ped1, ped2))
 		pagamentoRepository.saveAll(listOf(pagto1, pagto2))
+
+		val ip1 = ItemPedido(ped1, pro1, 0.00, 1, 2000.00)
+		val ip2 = ItemPedido(ped1, pro3, 0.00, 2, 80.00)
+		val ip3 = ItemPedido(ped2, pro2, 100.00, 1, 800.00)
+
+		ped1.itens.addAll(listOf( ip1, ip2))
+		ped2.itens.addAll(listOf(ip3))
+
+		pro1.itens.addAll(listOf(ip1))
+		pro2.itens.addAll(listOf(ip3))
+		pro3.itens.addAll(listOf(ip2))
+
+		itemPedidoRepository.saveAll(listOf(ip1, ip2, ip3))
 
 	}
 

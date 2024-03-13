@@ -17,7 +17,9 @@ class ItemPedido : Serializable {
     var id: ItemPedidoPK = ItemPedidoPK()
 
     var desconto: Double? = null
+
     var quantidade: Int? = null
+
     var preco: Double? = null
 
     constructor(pedido: Pedido, produto: Produto, desconto: Double, quantidade: Int, preco: Double) {

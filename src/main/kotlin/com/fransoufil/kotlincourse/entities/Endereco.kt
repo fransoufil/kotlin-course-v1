@@ -19,9 +19,13 @@ class Endereco : Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null
     var logradouro: String? = null
+
     var numero: String? = null
+
     var complemento: String? = null
+
     var bairro: String? = null
+
     var cep: String? = null
 
     @JsonBackReference

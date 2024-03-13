@@ -23,10 +23,14 @@ class Cliente : Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null
+
     var nome: String? = null
+
     @Column(unique = true)
     var email: String? = null
+
     var cpfCnpj: String? = null
+
     var tipo: Int? = null
 
     @JsonManagedReference

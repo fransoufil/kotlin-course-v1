@@ -10,12 +10,13 @@ import java.io.Serializable
 @Entity
 class Categoria(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) var id: Int?, var nome: String?
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int?,
+    var nome: String?
 ) : Serializable {
     companion object {
         private const val serialVersionUID = 1L
     }
-
 
     @ManyToMany(mappedBy = "categorias")
     var produtos: MutableList<Produto> = mutableListOf()

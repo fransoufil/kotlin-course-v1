@@ -20,4 +20,9 @@ class CategoriaService {
         val obj = categoriaRepository.findById(id)
         return obj.orElse(null)
     }
+
+    fun insert(obj: Categoria): Categoria {
+        obj.id = null
+        return categoriaRepository.save(obj)
+    }
 }

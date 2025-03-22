@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder
 
+import jakarta.validation.Valid
+
 @RestController
 @RequestMapping("/categorias")
 class CategoriaController {
@@ -27,7 +29,7 @@ class CategoriaController {
     }
 
     @PostMapping
-    fun insert(@RequestBody obj: Categoria): ResponseEntity<Void> {
+    fun insert(@Valid @RequestBody obj: Categoria): ResponseEntity<Void> {
         val obj = categoriaService.insert(obj)
         val uri = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}").buildAndExpand(obj.id).toUri()
